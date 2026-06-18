@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TimerCam — Hands-free self-timer camera / ハンズフリーのセルフタイマーカメラ</title>
+<meta name="description" content="TimerCam is the easiest way to take self-timer photos. Perfect for selfies and group shots. セルフタイマー写真を最も簡単に。自撮り・集合写真に最適。">
+<meta name="theme-color" content="#0b0b0d">
+<meta property="og:title" content="TimerCam — Hands-free self-timer camera">
+<meta property="og:description" content="One tap, hands-free photos. Perfect for selfies and group shots.">
+<meta property="og:image" content="lp-images/icon.png">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="lp-images/icon.png">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --bg-alt: #f5f6f8;
+    --text: #1c1c1e;
+    --text-dim: #6b6b72;
+    --card: #ffffff;
+    --border: #e6e8ec;
+    --accent: #ffcc00;
+    --accent-ink: #1c1c1e;
+    --link: #007aff;
+    --hero-bg: #0b0b0d;
+    --hero-text: #ffffff;
+    --hero-dim: #b9b9c0;
+    --shadow: 0 8px 30px rgba(0,0,0,0.10);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f0f11;
+      --bg-alt: #161619;
+      --text: #ececee;
+      --text-dim: #9a9aa2;
+      --card: #1a1a1e;
+      --border: #2a2a30;
+      --link: #4da3ff;
+      --hero-bg: #000000;
+      --hero-dim: #b9b9c0;
+      --shadow: 0 8px 30px rgba(0,0,0,0.5);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 22px; }
+
+  /* language toggle */
+  body.lang-en .lang-ja { display: none !important; }
+  body.lang-ja .lang-en { display: none !important; }
+
+  a { color: var(--link); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ---------- header ---------- */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--bg) 86%, transparent);
+    backdrop-filter: saturate(180%) blur(12px);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav { display: flex; align-items: center; gap: 14px; height: 60px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.1rem; color: var(--text); }
+  .brand img { width: 30px; height: 30px; border-radius: 7px; }
+  .nav .spacer { flex: 1; }
+  .langtoggle { display: inline-flex; border: 1px solid var(--border); border-radius: 999px; overflow: hidden; }
+  .langtoggle button {
+    border: 0; background: transparent; color: var(--text-dim);
+    font: inherit; font-size: 0.82rem; padding: 6px 12px; cursor: pointer;
+  }
+  .langtoggle button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); font-weight: 700; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--accent); color: var(--accent-ink);
+    font-weight: 700; padding: 9px 18px; border-radius: 999px;
+    font-size: 0.92rem; white-space: nowrap;
+  }
+  .btn:hover { text-decoration: none; filter: brightness(0.96); }
+  .nav .btn { padding: 8px 16px; }
+
+  /* ---------- App Store badge (official Apple SVG) ---------- */
+  .appstore-badge { display: inline-block; line-height: 0; }
+  .appstore-badge img { height: 52px; width: auto; display: block; }
+  .appstore-badge:hover { opacity: 0.82; }
+
+  /* ---------- hero ---------- */
+  .hero { background: var(--hero-bg); color: var(--hero-text); padding: 74px 0 64px; }
+  .hero .wrap { display: flex; align-items: center; gap: 48px; flex-wrap: wrap; }
+  .hero-copy { flex: 1 1 360px; }
+  .eyebrow {
+    display: inline-block; background: rgba(255,204,0,0.16); color: var(--accent);
+    font-weight: 700; font-size: 0.78rem; padding: 5px 12px; border-radius: 999px; margin-bottom: 18px;
+  }
+  .hero h1 { font-size: clamp(2.1rem, 5.4vw, 3.3rem); line-height: 1.12; margin: 0 0 16px; letter-spacing: -0.02em; }
+  .hero p.sub { font-size: 1.08rem; color: var(--hero-dim); margin: 0 0 26px; max-width: 30em; }
+  .hero .cta-row { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .hero .proof { margin-top: 22px; color: var(--hero-dim); font-size: 0.9rem; }
+  .hero .proof b { color: #fff; }
+  .hero-shot { flex: 0 0 auto; width: 250px; max-width: 70vw; margin: 0 auto; }
+  .hero-shot img {
+    width: 100%; border-radius: 30px; display: block;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  /* ---------- sections ---------- */
+  section { padding: 66px 0; }
+  section.alt { background: var(--bg-alt); }
+  .sec-head { text-align: center; max-width: 640px; margin: 0 auto 42px; }
+  .sec-head h2 { font-size: clamp(1.6rem, 3.6vw, 2.2rem); margin: 0 0 10px; letter-spacing: -0.01em; }
+  .sec-head p { color: var(--text-dim); margin: 0; font-size: 1.02rem; }
+
+  /* features grid */
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+    padding: 24px 22px; box-shadow: var(--shadow);
+  }
+  .card .ic {
+    width: 60px; height: 60px; border-radius: 15px; display: grid; place-items: center;
+    background: #17171a; border: 1px solid rgba(255,255,255,0.06); margin-bottom: 16px;
+  }
+  .card .ic img { width: 38px; height: 38px; object-fit: contain; display: block; }
+  .card h3 { margin: 0 0 6px; font-size: 1.08rem; }
+  .card p { margin: 0; color: var(--text-dim); font-size: 0.95rem; }
+
+  /* screenshots */
+  .shots { display: flex; justify-content: center; gap: 22px; flex-wrap: wrap; }
+  .shots img {
+    width: 240px; max-width: 72vw; border-radius: 26px; display: block;
+    box-shadow: var(--shadow); border: 1px solid var(--border);
+  }
+
+  /* steps */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; counter-reset: step; }
+  .step { text-align: center; }
+  .step .num {
+    width: 48px; height: 48px; border-radius: 999px; margin: 0 auto 14px;
+    background: var(--accent); color: var(--accent-ink); font-weight: 800; font-size: 1.2rem;
+    display: grid; place-items: center;
+  }
+  .step h3 { margin: 0 0 6px; font-size: 1.06rem; }
+  .step p { margin: 0; color: var(--text-dim); font-size: 0.95rem; }
+
+  /* press */
+  .press { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; text-align: center; }
+  .press .stat { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 26px 18px; }
+  .press .big { font-size: 1.7rem; font-weight: 800; color: var(--accent-ink); }
+  @media (prefers-color-scheme: dark) { .press .big { color: var(--text); } }
+  .press .big.y { color: #c79a00; }
+  .press .lbl { color: var(--text-dim); font-size: 0.92rem; margin-top: 4px; }
+
+  /* final cta */
+  .final { text-align: center; background: var(--hero-bg); color: var(--hero-text); }
+  .final h2 { font-size: clamp(1.7rem, 4vw, 2.4rem); margin: 0 0 10px; }
+  .final p { color: var(--hero-dim); margin: 0 0 26px; }
+
+  /* footer */
+  footer { border-top: 1px solid var(--border); padding: 34px 0 46px; color: var(--text-dim); font-size: 0.9rem; }
+  .foot { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .foot .spacer { flex: 1; }
+  .foot a { color: var(--text-dim); }
+  .foot .brand2 { display: flex; align-items: center; gap: 8px; color: var(--text); font-weight: 600; }
+  .foot .brand2 img { width: 22px; height: 22px; border-radius: 6px; }
+
+  @media (max-width: 860px) {
+    .grid, .steps, .press { grid-template-columns: 1fr 1fr; }
+    .hero { padding: 54px 0 48px; }
+    .hero .wrap { gap: 32px; }
+  }
+  @media (max-width: 560px) {
+    .grid, .steps, .press { grid-template-columns: 1fr; }
+    .nav .btn { display: none; }
+    section { padding: 50px 0; }
+  }
+</style>
+</head>
+<body class="lang-en">
+
+<!-- ===================== Header ===================== -->
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top"><img src="lp-images/icon.png" alt="TimerCam icon">TimerCam</a>
+    <div class="spacer"></div>
+    <div class="langtoggle" role="group" aria-label="Language">
+      <button data-setlang="en" type="button">EN</button>
+      <button data-setlang="ja" type="button">日本語</button>
+    </div>
+    <a class="btn" data-appstore href="#"><span class="lang-en">Download</span><span class="lang-ja">入手</span></a>
+  </div>
+</header>
+
+<!-- ===================== Hero ===================== -->
+<section class="hero" id="top" style="padding-top:74px;">
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="eyebrow"><span class="lang-en">Completely redesigned</span><span class="lang-ja">デザインを全面刷新</span></span>
+      <h1>
+        <span class="lang-en">One tap.<br>Hands-free photos.</span>
+        <span class="lang-ja">ワンタップで、<br>ハンズフリー撮影。</span>
+      </h1>
+      <p class="sub">
+        <span class="lang-en">TimerCam is the easiest way to take self-timer photos — perfect for selfies and group shots. Redesigned for a smoother, more intuitive experience.</span>
+        <span class="lang-ja">TimerCam は、セルフタイマー写真を最も簡単に撮れるアプリ。自撮りや集合写真に最適。デザインとユーザー体験を根本から再設計し、より直感的で使いやすくなりました。</span>
+      </p>
+      <div class="cta-row">
+        <a class="appstore-badge" data-appstore href="#" aria-label="Download on the App Store">
+          <img class="lang-en" src="lp-images/appstore-en.svg" alt="Download on the App Store" width="156" height="52">
+          <img class="lang-ja" src="lp-images/appstore-ja.svg" alt="App Store で手に入れよう" width="142" height="52">
+        </a>
+      </div>
+      <div class="proof">
+        <span class="lang-en">⭐ <b>Over 10 million downloads</b> worldwide · #1 Photography App in Japan</span>
+        <span class="lang-ja">⭐ <b>全世界1000万ダウンロード</b>突破 ・ 日本の写真アプリ ランキング1位</span>
+      </div>
+    </div>
+    <div class="hero-shot">
+      <img class="lang-en" src="lp-images/en-1.jpg" alt="TimerCam countdown screen">
+      <img class="lang-ja" src="lp-images/ja-1.jpg" alt="TimerCam カウントダウン画面">
+    </div>
+  </div>
+</section>
+
+<!-- ===================== Features ===================== -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="lang-en">Everything you need to nail the shot</span><span class="lang-ja">ベストショットのための機能</span></h2>
+      <p><span class="lang-en">Powerful controls, beautifully simple.</span><span class="lang-ja">パワフルな操作を、美しくシンプルに。</span></p>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="ic"><img src="lp-images/feat-timer.png" alt="" loading="lazy"></div>
+        <h3><span class="lang-en">5/10/15/30-sec timer</span><span class="lang-ja">5・10・15・30秒タイマー</span></h3>
+        <p><span class="lang-en">Pick your delay and get into the shot — no rush.</span><span class="lang-ja">秒数を選んで、あわてず撮影に入れる。</span></p>
+      </div>
+      <div class="card">
+        <div class="ic"><img src="lp-images/feat-ring.png" alt="" loading="lazy"></div>
+        <h3><span class="lang-en">Circular countdown ring</span><span class="lang-ja">円形カウントダウンリング</span></h3>
+        <p><span class="lang-en">A modern ring shows exactly how much time is left.</span><span class="lang-ja">残り時間がひと目でわかる、モダンな円形表示。</span></p>
+      </div>
+      <div class="card">
+        <div class="ic"><img src="lp-images/feat-focus.png" alt="" loading="lazy"></div>
+        <h3><span class="lang-en">Tap to focus &amp; adjust</span><span class="lang-ja">タップでピント＆露出</span></h3>
+        <p><span class="lang-en">Tap anywhere, then swipe up or down to fine-tune exposure.</span><span class="lang-ja">画面をタップ→上下スワイプで明るさを微調整。</span></p>
+      </div>
+      <div class="card">
+        <div class="ic"><img src="lp-images/feat-flash.png" alt="" loading="lazy"></div>
+        <h3><span class="lang-en">Front screen flash</span><span class="lang-ja">インカメラ画面フラッシュ</span></h3>
+        <p><span class="lang-en">Brighten your selfies even in low light.</span><span class="lang-ja">暗い場所でも自撮りを明るく。</span></p>
+      </div>
+      <div class="card">
+        <div class="ic"><img src="lp-images/feat-zoom.png" alt="" loading="lazy"></div>
+        <h3><span class="lang-en">Pinch to zoom</span><span class="lang-ja">ピンチでズーム</span></h3>
+        <p><span class="lang-en">Frame your shot exactly the way you want.</span><span class="lang-ja">思いどおりの構図に。</span></p>
+      </div>
+      <div class="card">
+        <div class="ic"><img src="lp-images/feat-rotate.png" alt="" loading="lazy"></div>
+        <h3><span class="lang-en">Portrait &amp; landscape</span><span class="lang-ja">縦・横画面対応</span></h3>
+        <p><span class="lang-en">Shoot comfortably in any orientation.</span><span class="lang-ja">どの向きでも快適に撮影。</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== Screenshots ===================== -->
+<section class="alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="lang-en">See it in action</span><span class="lang-ja">画面イメージ</span></h2>
+      <p><span class="lang-en">Clean, modern, and made for the moment.</span><span class="lang-ja">クリーンでモダン、その瞬間のために。</span></p>
+    </div>
+    <div class="shots lang-en">
+      <img src="lp-images/en-1.jpg" alt="TimerCam screenshot 1" loading="lazy">
+      <img src="lp-images/en-2.jpg" alt="TimerCam screenshot 2" loading="lazy">
+      <img src="lp-images/en-3.jpg" alt="TimerCam screenshot 3" loading="lazy">
+    </div>
+    <div class="shots lang-ja">
+      <img src="lp-images/ja-1.jpg" alt="TimerCam スクリーンショット1" loading="lazy">
+      <img src="lp-images/ja-2.jpg" alt="TimerCam スクリーンショット2" loading="lazy">
+      <img src="lp-images/ja-3.jpg" alt="TimerCam スクリーンショット3" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- ===================== How it works ===================== -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="lang-en">How it works</span><span class="lang-ja">使い方</span></h2>
+      <p><span class="lang-en">Three taps from idea to photo.</span><span class="lang-ja">3ステップで撮影完了。</span></p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <h3><span class="lang-en">Set your timer</span><span class="lang-ja">秒数を選ぶ</span></h3>
+        <p><span class="lang-en">Tap the number to pick 5–30 seconds.</span><span class="lang-ja">数字をタップして5〜30秒を選択。</span></p>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <h3><span class="lang-en">Tap the shutter</span><span class="lang-ja">シャッターを押す</span></h3>
+        <p><span class="lang-en">Press once and the countdown begins.</span><span class="lang-ja">一度押すとカウントダウン開始。</span></p>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <h3><span class="lang-en">Pose &amp; done</span><span class="lang-ja">ポーズして待つだけ</span></h3>
+        <p><span class="lang-en">Get in position — TimerCam takes the shot.</span><span class="lang-ja">あとはポーズ。TimerCam が撮影します。</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== Press / social proof ===================== -->
+<section class="alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="lang-en">Loved around the world</span><span class="lang-ja">世界中で愛されています</span></h2>
+    </div>
+    <div class="press">
+      <div class="stat">
+        <div class="big y">10M+</div>
+        <div class="lbl"><span class="lang-en">Downloads worldwide</span><span class="lang-ja">全世界ダウンロード</span></div>
+      </div>
+      <div class="stat">
+        <div class="big y">#1</div>
+        <div class="lbl"><span class="lang-en">Photo App ranking in Japan</span><span class="lang-ja">日本の写真アプリ ランキング</span></div>
+      </div>
+      <div class="stat">
+        <div class="big y">7+</div>
+        <div class="lbl"><span class="lang-en">Featured in iPhone app magazines</span><span class="lang-ja">iPhoneアプリ雑誌に掲載</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== Final CTA ===================== -->
+<section class="final">
+  <div class="wrap">
+    <h2><span class="lang-en">Get the shot, hands-free.</span><span class="lang-ja">ハンズフリーで、ベストショットを。</span></h2>
+    <p><span class="lang-en">Free on the App Store. iPhone, iOS 15.6 or later.</span><span class="lang-ja">App Store で無料。iPhone・iOS 15.6 以降に対応。</span></p>
+    <a class="appstore-badge" data-appstore href="#" aria-label="Download on the App Store">
+      <img class="lang-en" src="lp-images/appstore-en.svg" alt="Download on the App Store" width="156" height="52">
+      <img class="lang-ja" src="lp-images/appstore-ja.svg" alt="App Store で手に入れよう" width="142" height="52">
+    </a>
+  </div>
+</section>
+
+<!-- ===================== Footer ===================== -->
+<footer>
+  <div class="wrap foot">
+    <div class="brand2"><img src="lp-images/icon.png" alt="TimerCam">TimerCam</div>
+    <div class="spacer"></div>
+    <a href="privacy_timercam.html"><span class="lang-en">Privacy Policy</span><span class="lang-ja">プライバシーポリシー</span></a>
+    <span>© 2026 Redseven Apps</span>
+  </div>
+</footer>
+
+<script>
+  // === Set this to TimerCam's real App Store page URL ===
+  var APP_STORE_URL = "https://apps.apple.com/app/id494952699";
+
+  (function () {
+    // Wire up all download buttons
+    document.querySelectorAll('[data-appstore]').forEach(function (a) { a.setAttribute('href', APP_STORE_URL); });
+
+    function setLang(l) {
+      l = (l === 'ja') ? 'ja' : 'en';
+      document.body.classList.remove('lang-en', 'lang-ja');
+      document.body.classList.add('lang-' + l);
+      document.documentElement.lang = l;
+      document.querySelectorAll('[data-setlang]').forEach(function (b) {
+        b.setAttribute('aria-pressed', b.getAttribute('data-setlang') === l ? 'true' : 'false');
+      });
+      try { localStorage.setItem('tc_lang', l); } catch (e) {}
+    }
+
+    // Initial language: saved choice → browser language → English
+    var initial;
+    try { initial = localStorage.getItem('tc_lang'); } catch (e) { initial = null; }
+    if (!initial) {
+      initial = ((navigator.language || navigator.userLanguage || '').toLowerCase().indexOf('ja') === 0) ? 'ja' : 'en';
+    }
+    setLang(initial);
+
+    document.querySelectorAll('[data-setlang]').forEach(function (b) {
+      b.addEventListener('click', function () { setLang(b.getAttribute('data-setlang')); });
+    });
+  })();
+</script>
+
+</body>
+</html>
