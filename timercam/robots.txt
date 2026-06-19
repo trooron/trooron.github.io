@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://trooron.github.io/timercam/sitemap.xml
