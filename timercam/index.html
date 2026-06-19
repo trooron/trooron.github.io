@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TimerCam - Self-Timer Camera App for Selfies and Group Photos</title>
+<meta name="description" content="TimerCam is a simple self-timer camera app for iPhone. Take hands-free selfies and group photos with one tap, countdown controls, focus, zoom, and screen flash.">
+<meta name="theme-color" content="#0b0b0d">
+<meta property="og:title" content="TimerCam - Self-Timer Camera App">
+<meta property="og:description" content="Take hands-free selfies and group photos with one tap. Free on the App Store for iPhone.">
+<meta property="og:url" content="https://trooron.github.io/timercam/">
+<meta property="og:image" content="https://trooron.github.io/timercam/lp-images/icon.png">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ja_JP">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://trooron.github.io/timercam/">
+<link rel="alternate" hreflang="en" href="https://trooron.github.io/timercam/">
+<link rel="alternate" hreflang="ja" href="https://trooron.github.io/timercam/ja/">
+<link rel="alternate" hreflang="x-default" href="https://trooron.github.io/timercam/">
+<link rel="icon" type="image/png" href="lp-images/icon.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MobileApplication",
+  "name": "TimerCam",
+  "operatingSystem": "iOS 15.6 or later",
+  "applicationCategory": "Photo & Video",
+  "description": "TimerCam is a simple self-timer camera app for iPhone. Take hands-free selfies and group photos with one tap.",
+  "downloadUrl": "https://apps.apple.com/app/id494952699",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "inLanguage": "en"
+}
+</script>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --bg-alt: #f5f6f8;
+    --text: #1c1c1e;
+    --text-dim: #6b6b72;
+    --card: #ffffff;
+    --border: #e6e8ec;
+    --accent: #ffcc00;
+    --accent-ink: #1c1c1e;
+    --link: #007aff;
+    --hero-bg: #0b0b0d;
+    --hero-text: #ffffff;
+    --hero-dim: #b9b9c0;
+    --shadow: 0 8px 30px rgba(0,0,0,0.10);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f0f11;
+      --bg-alt: #161619;
+      --text: #ececee;
+      --text-dim: #9a9aa2;
+      --card: #1a1a1e;
+      --border: #2a2a30;
+      --link: #4da3ff;
+      --hero-bg: #000000;
+      --hero-dim: #b9b9c0;
+      --shadow: 0 8px 30px rgba(0,0,0,0.5);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 22px; }
+  a { color: var(--link); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--bg) 86%, transparent);
+    backdrop-filter: saturate(180%) blur(12px);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav { display: flex; align-items: center; gap: 14px; height: 60px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.1rem; color: var(--text); }
+  .brand img { width: 30px; height: 30px; border-radius: 7px; }
+  .nav .spacer { flex: 1; }
+  .langlinks { display: inline-flex; border: 1px solid var(--border); border-radius: 999px; overflow: hidden; }
+  .langlinks a {
+    color: var(--text-dim);
+    font-size: 0.82rem;
+    padding: 6px 12px;
+  }
+  .langlinks a[aria-current="true"] { background: var(--accent); color: var(--accent-ink); font-weight: 700; }
+  .langlinks a:hover { text-decoration: none; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--accent); color: var(--accent-ink);
+    font-weight: 700; padding: 9px 18px; border-radius: 999px;
+    font-size: 0.92rem; white-space: nowrap;
+  }
+  .btn:hover { text-decoration: none; filter: brightness(0.96); }
+  .nav .btn { padding: 8px 16px; }
+
+  .appstore-badge { display: inline-block; line-height: 0; }
+  .appstore-badge img { height: 52px; width: auto; display: block; }
+  .appstore-badge:hover { opacity: 0.82; }
+
+  .hero { background: var(--hero-bg); color: var(--hero-text); padding: 74px 0 64px; }
+  .hero .wrap { display: flex; align-items: center; gap: 48px; flex-wrap: wrap; }
+  .hero-copy { flex: 1 1 360px; }
+  .eyebrow {
+    display: inline-block; background: rgba(255,204,0,0.16); color: var(--accent);
+    font-weight: 700; font-size: 0.78rem; padding: 5px 12px; border-radius: 999px; margin-bottom: 18px;
+  }
+  .hero h1 { font-size: clamp(2.1rem, 5.4vw, 3.3rem); line-height: 1.12; margin: 0 0 16px; letter-spacing: 0; }
+  .hero p.sub { font-size: 1.08rem; color: var(--hero-dim); margin: 0 0 26px; max-width: 30em; }
+  .hero .cta-row { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .hero .proof { margin-top: 22px; color: var(--hero-dim); font-size: 0.9rem; }
+  .hero .proof b { color: #fff; }
+  .hero-shot { flex: 0 0 auto; width: 250px; max-width: 70vw; margin: 0 auto; }
+  .hero-shot img {
+    width: 100%; border-radius: 30px; display: block;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  section { padding: 66px 0; }
+  section.alt { background: var(--bg-alt); }
+  .sec-head { text-align: center; max-width: 640px; margin: 0 auto 42px; }
+  .sec-head h2 { font-size: clamp(1.6rem, 3.6vw, 2.2rem); margin: 0 0 10px; letter-spacing: 0; }
+  .sec-head p { color: var(--text-dim); margin: 0; font-size: 1.02rem; }
+
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+    padding: 24px 22px; box-shadow: var(--shadow);
+  }
+  .card .ic {
+    width: 60px; height: 60px; border-radius: 15px; display: grid; place-items: center;
+    background: #17171a; border: 1px solid rgba(255,255,255,0.06); margin-bottom: 16px;
+  }
+  .card .ic img { width: 38px; height: 38px; object-fit: contain; display: block; }
+  .card h3 { margin: 0 0 6px; font-size: 1.08rem; }
+  .card p { margin: 0; color: var(--text-dim); font-size: 0.95rem; }
+
+  .shots { display: flex; justify-content: center; gap: 22px; flex-wrap: wrap; }
+  .shots img {
+    width: 240px; max-width: 72vw; border-radius: 26px; display: block;
+    box-shadow: var(--shadow); border: 1px solid var(--border);
+  }
+
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .step { text-align: center; }
+  .step .num {
+    width: 48px; height: 48px; border-radius: 999px; margin: 0 auto 14px;
+    background: var(--accent); color: var(--accent-ink); font-weight: 800; font-size: 1.2rem;
+    display: grid; place-items: center;
+  }
+  .step h3 { margin: 0 0 6px; font-size: 1.06rem; }
+  .step p { margin: 0; color: var(--text-dim); font-size: 0.95rem; }
+
+  .press { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; text-align: center; }
+  .press .stat { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 26px 18px; }
+  .press .big { font-size: 1.7rem; font-weight: 800; color: var(--accent-ink); }
+  @media (prefers-color-scheme: dark) { .press .big { color: var(--text); } }
+  .press .big.y { color: #c79a00; }
+  .press .lbl { color: var(--text-dim); font-size: 0.92rem; margin-top: 4px; }
+
+  .final { text-align: center; background: var(--hero-bg); color: var(--hero-text); }
+  .final h2 { font-size: clamp(1.7rem, 4vw, 2.4rem); margin: 0 0 10px; }
+  .final p { color: var(--hero-dim); margin: 0 0 26px; }
+
+  footer { border-top: 1px solid var(--border); padding: 34px 0 46px; color: var(--text-dim); font-size: 0.9rem; }
+  .foot { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .foot .spacer { flex: 1; }
+  .foot a { color: var(--text-dim); }
+  .foot .brand2 { display: flex; align-items: center; gap: 8px; color: var(--text); font-weight: 600; }
+  .foot .brand2 img { width: 22px; height: 22px; border-radius: 6px; }
+
+  @media (max-width: 860px) {
+    .grid, .steps, .press { grid-template-columns: 1fr 1fr; }
+    .hero { padding: 54px 0 48px; }
+    .hero .wrap { gap: 32px; }
+  }
+  @media (max-width: 560px) {
+    .grid, .steps, .press { grid-template-columns: 1fr; }
+    .nav .btn { display: none; }
+    section { padding: 50px 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top"><img src="lp-images/icon.png" alt="TimerCam icon">TimerCam</a>
+    <div class="spacer"></div>
+    <nav class="langlinks" aria-label="Language">
+      <a href="./" lang="en" aria-current="true">EN</a>
+      <a href="ja/" lang="ja">日本語</a>
+    </nav>
+    <a class="btn" href="https://apps.apple.com/app/id494952699">Download</a>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="eyebrow">Completely redesigned</span>
+      <h1>One tap.<br>Hands-free photos.</h1>
+      <p class="sub">TimerCam is the easiest way to take self-timer photos - perfect for selfies and group shots. Redesigned for a smoother, more intuitive experience.</p>
+      <div class="cta-row">
+        <a class="appstore-badge" href="https://apps.apple.com/app/id494952699" aria-label="Download on the App Store">
+          <img src="lp-images/appstore-en.svg" alt="Download on the App Store" width="156" height="52">
+        </a>
+      </div>
+      <div class="proof"><b>Over 10 million downloads</b> worldwide - #1 Photography App in Japan</div>
+    </div>
+    <div class="hero-shot">
+      <img src="lp-images/en-1.jpg" alt="TimerCam countdown screen" fetchpriority="high">
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Everything you need to nail the shot</h2>
+      <p>Powerful controls, beautifully simple.</p>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="ic"><img src="lp-images/feat-timer.png" alt="" loading="lazy"></div>
+        <h3>5/10/15/30-sec timer</h3>
+        <p>Pick your delay and get into the shot - no rush.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><img src="lp-images/feat-ring.png" alt="" loading="lazy"></div>
+        <h3>Circular countdown ring</h3>
+        <p>A modern ring shows exactly how much time is left.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><img src="lp-images/feat-focus.png" alt="" loading="lazy"></div>
+        <h3>Tap to focus &amp; adjust</h3>
+        <p>Tap anywhere, then swipe up or down to fine-tune exposure.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><img src="lp-images/feat-flash.png" alt="" loading="lazy"></div>
+        <h3>Front screen flash</h3>
+        <p>Brighten your selfies even in low light.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><img src="lp-images/feat-zoom.png" alt="" loading="lazy"></div>
+        <h3>Pinch to zoom</h3>
+        <p>Frame your shot exactly the way you want.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><img src="lp-images/feat-rotate.png" alt="" loading="lazy"></div>
+        <h3>Portrait &amp; landscape</h3>
+        <p>Shoot comfortably in any orientation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>See it in action</h2>
+      <p>Clean, modern, and made for the moment.</p>
+    </div>
+    <div class="shots">
+      <img src="lp-images/en-1.jpg" alt="TimerCam countdown screen" loading="lazy">
+      <img src="lp-images/en-2.jpg" alt="TimerCam camera controls screen" loading="lazy">
+      <img src="lp-images/en-3.jpg" alt="TimerCam photo preview screen" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>How it works</h2>
+      <p>Three taps from idea to photo.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <h3>Set your timer</h3>
+        <p>Tap the number to pick 5-30 seconds.</p>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <h3>Tap the shutter</h3>
+        <p>Press once and the countdown begins.</p>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <h3>Pose &amp; done</h3>
+        <p>Get in position - TimerCam takes the shot.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Loved around the world</h2>
+    </div>
+    <div class="press">
+      <div class="stat">
+        <div class="big y">10M+</div>
+        <div class="lbl">Downloads worldwide</div>
+      </div>
+      <div class="stat">
+        <div class="big y">#1</div>
+        <div class="lbl">Photo App ranking in Japan</div>
+      </div>
+      <div class="stat">
+        <div class="big y">7+</div>
+        <div class="lbl">Featured in iPhone app magazines</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <h2>Get the shot, hands-free.</h2>
+    <p>Free on the App Store. iPhone, iOS 15.6 or later.</p>
+    <a class="appstore-badge" href="https://apps.apple.com/app/id494952699" aria-label="Download on the App Store">
+      <img src="lp-images/appstore-en.svg" alt="Download on the App Store" width="156" height="52">
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div class="brand2"><img src="lp-images/icon.png" alt="TimerCam">TimerCam</div>
+    <div class="spacer"></div>
+    <a href="../privacy_timercam.html">Privacy Policy</a>
+    <span>&copy; 2026 Redseven Apps</span>
+  </div>
+</footer>
+
+</body>
+</html>
