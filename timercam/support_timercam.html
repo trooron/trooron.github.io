@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TimerCam Support</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --text: #1c1c1e;
+    --muted: #6e6e73;
+    --border: #d8d8dc;
+    --card: #f6f6f8;
+    --accent: #007aff;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1e;
+      --text: #f5f5f7;
+      --muted: #a1a1a6;
+      --border: #3a3a3c;
+      --card: #2c2c2e;
+      --accent: #4da3ff;
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Sans", "Yu Gothic", sans-serif;
+    line-height: 1.7;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 28px 20px 64px;
+    color: var(--text);
+    background: var(--bg);
+  }
+
+  a { color: var(--accent); }
+
+  header {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 28px;
+  }
+
+  .app-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 16px;
+    flex: 0 0 auto;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
+  }
+
+  h1 {
+    font-size: 1.8rem;
+    line-height: 1.2;
+    margin: 0 0 4px;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    margin: 2.2em 0 0.75em;
+    padding-bottom: 0.35em;
+    border-bottom: 1px solid var(--border);
+  }
+
+  h3 {
+    font-size: 1rem;
+    margin: 0 0 0.35em;
+  }
+
+  p { margin: 0 0 1em; }
+
+  ul {
+    margin-top: 0;
+    padding-left: 1.25em;
+  }
+
+  .updated,
+  .muted {
+    color: var(--muted);
+  }
+
+  .updated {
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  .intro {
+    margin-bottom: 1.25em;
+  }
+
+  .language-switch {
+    display: inline-flex;
+    gap: 4px;
+    padding: 4px;
+    margin: 16px 0 6px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--card);
+  }
+
+  .language-switch button {
+    appearance: none;
+    border: 0;
+    border-radius: 7px;
+    padding: 7px 12px;
+    color: var(--text);
+    background: transparent;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .language-switch button[aria-pressed="true"] {
+    color: #ffffff;
+    background: var(--accent);
+  }
+
+  .button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 18px 0 8px;
+  }
+
+  .button {
+    display: inline-block;
+    padding: 9px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    background: var(--card);
+  }
+
+  .faq {
+    display: grid;
+    gap: 12px;
+  }
+
+  .faq-item {
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--card);
+  }
+
+  .faq-item p:last-child,
+  .contact-card p:last-child {
+    margin-bottom: 0;
+  }
+
+  .contact-card {
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--card);
+  }
+
+  footer {
+    margin-top: 42px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  [data-lang] { display: none; }
+  body.lang-en [data-lang="en"] { display: block; }
+  body.lang-ja [data-lang="ja"] { display: block; }
+
+  body.lang-en li[data-lang="en"],
+  body.lang-ja li[data-lang="ja"] {
+    display: list-item;
+  }
+</style>
+</head>
+<body class="lang-en">
+
+<header>
+  <img class="app-icon" src="selftimercamera/Images.xcassets/AppIcon.appiconset/Icon@1024.png" alt="TimerCam app icon">
+  <div>
+    <h1>TimerCam Support</h1>
+    <p class="updated" data-lang="en">Last updated: June 24, 2026</p>
+    <p class="updated" data-lang="ja">最終更新日：2026年6月24日</p>
+  </div>
+</header>
+
+<main>
+  <nav class="language-switch" aria-label="Language">
+    <button type="button" data-switch-lang="en" aria-pressed="true">English</button>
+    <button type="button" data-switch-lang="ja" aria-pressed="false">日本語</button>
+  </nav>
+
+  <section class="intro">
+    <p data-lang="en">TimerCam is a simple self-timer camera app for iPhone. This page provides basic help, frequently asked questions, and contact information.</p>
+    <p data-lang="ja">TimerCam は、iPhone向けのシンプルなセルフタイマーカメラアプリです。このページでは、基本的なヘルプ、よくある質問、お問い合わせ方法をご案内します。</p>
+
+    <div class="button-row">
+      <a class="button" data-lang="en" href="privacy_timercam.html">Privacy Policy</a>
+      <a class="button" data-lang="ja" href="privacy_timercam.html">プライバシーポリシー</a>
+    </div>
+  </section>
+
+  <section>
+    <h2 data-lang="en">FAQ</h2>
+    <h2 data-lang="ja">よくある質問</h2>
+    <div class="faq">
+      <article class="faq-item">
+        <h3 data-lang="en">The camera does not appear.</h3>
+        <p data-lang="en">Please check camera permission in the iPhone Settings app. Open Settings, find TimerCam, and allow camera access.</p>
+        <h3 data-lang="ja">カメラが表示されません。</h3>
+        <p data-lang="ja">iPhoneの設定アプリでカメラ権限を確認してください。「設定」から TimerCam を開き、カメラへのアクセスを許可してください。</p>
+      </article>
+
+      <article class="faq-item">
+        <h3 data-lang="en">Photos cannot be saved.</h3>
+        <p data-lang="en">Please check photo access permission in the iPhone Settings app. TimerCam needs permission to add captured photos to your photo library.</p>
+        <h3 data-lang="ja">写真を保存できません。</h3>
+        <p data-lang="ja">iPhoneの設定アプリで写真へのアクセス権限を確認してください。TimerCam が撮影した写真を写真ライブラリへ追加できるようにする必要があります。</p>
+      </article>
+
+      <article class="faq-item">
+        <h3 data-lang="en">Are my photos uploaded?</h3>
+        <p data-lang="en">No. Captured photos are processed on your device and are not uploaded to our servers.</p>
+        <h3 data-lang="ja">撮影した写真はアップロードされますか？</h3>
+        <p data-lang="ja">いいえ。撮影した写真は端末内で処理され、当方のサーバーへアップロードされることはありません。</p>
+      </article>
+
+      <article class="faq-item">
+        <h3 data-lang="en">How do I take square photos?</h3>
+        <p data-lang="en">Use the aspect ratio button on the camera screen to switch between the available photo ratios, including square (1:1).</p>
+        <h3 data-lang="ja">正方形の写真を撮るには？</h3>
+        <p data-lang="ja">撮影画面のアスペクト比切り替えボタンから、正方形（1:1）を含む撮影比率を切り替えられます。</p>
+      </article>
+
+      <article class="faq-item">
+        <h3 data-lang="en">How do I show the grid?</h3>
+        <p data-lang="en">Open Settings in TimerCam and turn on the grid option. The grid is shown only on the camera preview screen.</p>
+        <h3 data-lang="ja">グリッドを表示するには？</h3>
+        <p data-lang="ja">TimerCam の設定画面を開き、グリッド表示をオンにしてください。グリッドは撮影プレビュー画面に表示されます。</p>
+      </article>
+
+      <article class="faq-item">
+        <h3 data-lang="en">Can I move the shutter button in landscape mode?</h3>
+        <p data-lang="en">Yes. Open Settings in TimerCam and choose the shutter button position for landscape mode.</p>
+        <h3 data-lang="ja">横画面時の撮影ボタン位置は変更できますか？</h3>
+        <p data-lang="ja">はい。TimerCam の設定画面から、横画面時の撮影ボタン位置を選択できます。</p>
+      </article>
+
+      <article class="faq-item">
+        <h3 data-lang="en">Why does TimerCam show ads or consent messages?</h3>
+        <p data-lang="en">TimerCam displays ads to support the free version of the app. Depending on your region and device settings, you may see Apple's tracking permission prompt or Google's advertising consent message.</p>
+        <h3 data-lang="ja">広告や同意メッセージが表示されるのはなぜですか？</h3>
+        <p data-lang="ja">TimerCam は無料版の提供を支えるために広告を表示しています。地域や端末設定によって、Appleのトラッキング許可プロンプトやGoogleの広告同意メッセージが表示される場合があります。</p>
+      </article>
+
+      <article class="faq-item">
+        <h3 data-lang="en">How can I send feedback or report a bug?</h3>
+        <p data-lang="en">The easiest way is to open Settings in TimerCam and select Feedback &amp; Support. This helps include useful app and device information in your message.</p>
+        <h3 data-lang="ja">不具合報告や要望を送るには？</h3>
+        <p data-lang="ja">TimerCam の設定画面から「不具合報告・ご要望」を選択するのが簡単です。アプリや端末に関する情報を含めて連絡しやすくなります。</p>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <h2 data-lang="en">Contact</h2>
+    <h2 data-lang="ja">お問い合わせ</h2>
+    <div class="contact-card">
+      <p data-lang="en">If you found a bug or have a feature request, please contact us from <strong>Settings &gt; Feedback &amp; Support</strong> in the app.</p>
+      <p data-lang="ja">不具合や改善のご要望がある場合は、アプリ内の <strong>設定 &gt; 不具合報告・ご要望</strong> からお問い合わせください。</p>
+      <p data-lang="en">You can also email us at <a href="mailto:red7apps@gmail.com">red7apps@gmail.com</a>.</p>
+      <p data-lang="ja">メールでのお問い合わせは <a href="mailto:red7apps@gmail.com">red7apps@gmail.com</a> までお願いいたします。</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 data-lang="en">When Contacting Us</h2>
+    <h2 data-lang="ja">ご連絡時に含めてほしい情報</h2>
+    <ul>
+      <li data-lang="en">iPhone model</li>
+      <li data-lang="ja">iPhoneの機種</li>
+      <li data-lang="en">iOS version</li>
+      <li data-lang="ja">iOSバージョン</li>
+      <li data-lang="en">TimerCam version</li>
+      <li data-lang="ja">TimerCamのバージョン</li>
+      <li data-lang="en">Steps to reproduce the issue</li>
+      <li data-lang="ja">問題が発生するまでの操作手順</li>
+      <li data-lang="en">Screenshots, if available</li>
+      <li data-lang="ja">可能であればスクリーンショット</li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <p data-lang="en">TimerCam is developed by Redseven Apps.</p>
+  <p data-lang="ja">TimerCam は Redseven Apps が開発・提供しています。</p>
+</footer>
+
+<script>
+  (function () {
+    var buttons = document.querySelectorAll("[data-switch-lang]");
+    var savedLanguage = localStorage.getItem("timercam-support-language");
+    var initialLanguage = savedLanguage || (navigator.language && navigator.language.indexOf("ja") === 0 ? "ja" : "en");
+
+    function setLanguage(language) {
+      document.body.classList.toggle("lang-en", language === "en");
+      document.body.classList.toggle("lang-ja", language === "ja");
+      document.documentElement.lang = language;
+      localStorage.setItem("timercam-support-language", language);
+
+      buttons.forEach(function (button) {
+        button.setAttribute("aria-pressed", button.dataset.switchLang === language ? "true" : "false");
+      });
+    }
+
+    buttons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        setLanguage(button.dataset.switchLang);
+      });
+    });
+
+    setLanguage(initialLanguage);
+  })();
+</script>
+
+</body>
+</html>
